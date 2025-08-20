@@ -25,4 +25,4 @@ class RssArticlesFeeds(Feed):
             return item.url
 
     def item_author_name(self, item):
-        return item.source + " - " + item.ticker
+        return item.source + " - " + item.ticker.symbol
