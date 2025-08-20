@@ -3,14 +3,16 @@
 I built this simple Django app to get a personalized RSS feed relative to the tickers that interest me.
 Surprisingly, I couldn't find anything similar for free, only specialized subscription-based services.
 
-After the initial setup, the application will fetch news every hour and render them at the page 
+After the initial setup, the application will fetch news every hour and render them as a feed at `http://127.0.0.1:8000/feed/rss`
+
+The app also tries to download each entry's text using the newspaper3k library.
 
 ## Setup
 
 ### 1. Clone and Install Dependencies
 ```bash
-git clone <repository-url>
-cd stocktrack
+git clone https://github.com/El3k0n/portfolionews.git
+cd portfolionews
 
 # Create virtual environment
 python3 -m venv venv
