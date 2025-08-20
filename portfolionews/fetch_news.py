@@ -53,7 +53,7 @@ def get_news_yfinance(ticker):
 
 '''
 def get_news_finviz(api_key, portfolio_id):
-    '''
+    
     Deprecated, use get_news_yfinance instead
     Gets Finviz api key and portfolio id
     Returns list of dictionaries with the keys:
@@ -64,7 +64,7 @@ def get_news_finviz(api_key, portfolio_id):
         - Category
         - Ticker
         - Content
-    '''
+    
     url = "".join(["https://elite.finviz.com/news_export.ashx?pid=", portfolio_id,"&auth=", api_key])
     #print(url)
     response_csv = requests.get(url)

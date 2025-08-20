@@ -1,5 +1,4 @@
 from portfolionews.models import Article, Ticker
-from portfolionews.settings import FINVIZ_API_KEY, FINVIZ_PORTFOLIO_ID
 from portfolionews.fetch_news import get_news_yfinance
 from sqids import Sqids #type: ignore
 from random import randint
