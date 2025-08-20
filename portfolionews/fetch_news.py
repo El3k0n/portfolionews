@@ -32,7 +32,15 @@ def get_news_yfinance(ticker):
         article["Title"] = item["content"]["title"]
         article["Source"] = item["content"]["provider"]["displayName"]
         article["Date"] = item["content"]["pubDate"]
-        article["Url"] = item["content"]["canonicalUrl"]["url"]
+
+        try:
+            #yfinance doesn't always have the clickThroughUrl
+            #if it doesn't, we use the canonicalUrl
+            #I'm not doing the checks for other fields because they seem to be always available
+            article["Url"] = item["content"]["clickThroughUrl"]["url"] 
+        except TypeError:
+            article["Url"] = item["content"]["canonicalUrl"]["url"]
+
         article["Description"] = item["content"]["summary"]
         article["Category"] = ""
         article["Ticker"] = ticker
