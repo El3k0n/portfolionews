@@ -1,0 +1,106 @@
+# Portfolio News
+
+I built this simple Django app to get a personalized RSS feed relative to the tickers that interest me.
+Surprisingly, I couldn't find anything similar for free, only specialized subscription-based services.
+
+After the initial setup, the application will fetch news every hour and render them at the page 
+
+## Setup
+
+### 1. Clone and Install Dependencies
+```bash
+git clone <repository-url>
+cd stocktrack
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate  # On macOS/Linux
+# or
+venv\Scripts\activate     # On Windows
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 2. Database Setup
+```bash
+# Run migrations
+python manage.py migrate
+
+# Create superuser (optional)
+python manage.py createsuperuser
+```
+
+### 3. Add Tickers
+You can add the first tickers with the dedicated Django command:
+
+```bash
+# Add individual tickers
+python manage.py add_ticker AAPL MSFT GOOGL --names "Apple Inc." "Microsoft Corporation" "Alphabet Inc."
+
+# Or add tickers without custom names
+python manage.py add_ticker TSLA NVDA
+```
+
+Alternatively you can do it graphically in the next step
+
+### 4. Start Development Server
+```bash
+python manage.py runserver
+```
+
+The application will be available at `http://127.0.0.1:8000/`, simply opening that link will allow you to add tickers graphically
+
+## Crontab Configuration
+The system uses crontab to fetch the news periodically:
+
+### 1. Install Crontab Jobs
+```bash
+# Add cron jobs to system
+python manage.py crontab add
+
+# Verify installation
+python manage.py crontab show
+
+# Remove cron jobs (if needed)
+python manage.py crontab remove
+```
+
+### 2. Cron Job Schedule
+- **Update News**: Every hour (`0 * * * *`)
+
+### 3. Manual Task Execution
+```bash
+# Update news manually
+python manage.py update_news
+
+# Populate news for first time
+python manage.py populate_first_time
+```
+
+## Management Commands
+
+- `add_ticker`: Add new tickers to database
+- `update_news`: Fetch latest news for existing tickers
+- `populate_first_time`: Fetch all available news for tickers
+- `clear_data`: Remove all articles and tickers (use with `--confirm`)
+
+
+## Dependencies
+
+- Django 5.1.3+
+- django-crontab 0.7.1+
+- yfinance 0.2.29+
+- newspaper3k 0.2.8+
+- requests 2.31.0+
+- sqids 0.5.2+
+- python-dateutil 2.8.2+
+
+## Notes
+
+- Ensure your virtual environment is activated before running any commands
+- The application uses SQLite by default for development
+- Crontab jobs require the system cron daemon to be running
+- News fetching is limited to tickers present in the database

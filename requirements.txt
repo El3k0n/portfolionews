@@ -1,0 +1,25 @@
+# Django and core dependencies
+Django>=5.1.3
+django-crontab>=0.7.1
+
+# HTTP requests and API handling
+requests>=2.31.0
+
+# News article parsing and content extraction
+newspaper3k>=0.2.8
+
+# LXML HTML cleaning
+lxml_html_clean>=0.4.2
+
+# Date and time parsing
+python-dateutil>=2.8.2
+
+# URL shortening and ID generation
+sqids>=0.5.2
+
+# YFinance
+yfinance>=0.2.29
+
+# Production dependencies (optional)
+# gunicorn>=21.2.0
+# whitenoise>=6.5.0
