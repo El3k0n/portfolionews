@@ -3,7 +3,7 @@
 I built this simple Django app to get a personalized RSS feed relative to the tickers that interest me.
 Surprisingly, I couldn't find anything similar for free, only specialized subscription-based services.
 
-After the initial setup, the application will fetch news every hour and render them as a feed at `http://127.0.0.1:8000/feed/rss`
+After the initial setup, the application will fetch news every hour and render them as a feed at `http://127.0.0.1:8000/rss`
 
 The app also tries to download each entry's text using the newspaper3k library.
 
@@ -24,6 +24,21 @@ venv\Scripts\activate     # On Windows
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+You'll also need to set the environment variables. If you're only testing it, you can make the following changes to ```settings.py```:
+
+```python
+SECRET_KEY = "your-very-unsafe-secret-key"
+DEBUG = 1
+ALLOWED_HOSTS = [*]
+```
+
+And delete these lines at the end of the same file:
+```python
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = getenv_bool("DJANGO_SECURE_SSL_REDIRECT","1")
+CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS if h]
 ```
 
 ### 2. Database Setup
