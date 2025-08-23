@@ -1,12 +1,13 @@
 from django.contrib.syndication.views import Feed
 from django.template.defaultfilters import truncatewords
+from django.urls import reverse
 
 from .models import Article
 
 
 class RssArticlesFeeds(Feed):
     title = "Portfolio News"
-    link = "/stocknews/"
+    link = "/articles/"
     description = "News about my stock watchlist"
 
     def items(self):
@@ -22,7 +23,8 @@ class RssArticlesFeeds(Feed):
             return item.published_at
 
     def item_link(self, item):
-            return item.url
+            # Usa l'URL interno dell'app invece dell'URL originale
+            return reverse('article_detail', kwargs={'slug': item.slug})
 
     def item_author_name(self, item):
         return item.source + " - " + item.ticker.symbol

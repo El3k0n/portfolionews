@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio News - Articles</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #2980b9;
+        }
+        .article-count {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #34495e;
+        }
+        .article-list {
+            display: grid;
+            gap: 20px;
+        }
+        .article-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.2s;
+        }
+        .article-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .article-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .article-title a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .article-title a:hover {
+            color: #3498db;
+        }
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .article-description {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        .no-articles {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 60px 20px;
+        }
+        .ticker-badge {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .source-badge {
+            background: #95a5a6;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📰 Portfolio News - Articles</h1>
+        
+        <div class="nav-links">
+            <a href="{% url 'index' %}">🏠 Home</a>
+            <a href="{% url 'article_list' %}">📰 Articles</a>
+            <a href="{% url 'rss_feed' %}">📡 RSS Feed</a>
+        </div>
+        
+        <div class="article-count">
+            <h3>📊 Database Statistics</h3>
+            <p>Currently you have <strong>{{ article_list|length }}</strong> articles in the database</p>
+        </div>
+        
+        {% if article_list %}
+            <div class="article-list">
+                {% for article in article_list %}
+                <article class="article-item">
+                    <h2 class="article-title">
+                        <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
+                    </h2>
+                    
+                    <div class="article-meta">
+                        <span class="meta-item">
+                            📅 {{ article.published_at|date:"M d, Y H:i" }}
+                        </span>
+                        <span class="meta-item">
+                            🏷️ <span class="ticker-badge">{{ article.ticker.symbol }}</span>
+                        </span>
+                        <span class="meta-item">
+                            📰 <span class="source-badge">{{ article.source }}</span>
+                        </span>
+                        {% if article.category %}
+                        <span class="meta-item">
+                            📂 {{ article.category }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="article-description">
+                        {{ article.description|truncatewords:50 }}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-articles">
+                <h3>No articles found</h3>
+                <p>There are no articles in the database yet.</p>
+                <p>Add some tickers first and wait for the news to be fetched!</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

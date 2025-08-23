@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.views import View
 
 # Create your views here.
-#from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView
 
 from .models import Article, Ticker
 
@@ -45,15 +45,14 @@ class IndexView(View):
         
         return redirect('index')
 
-'''
+
 class ArticleListView(ListView):
     model = Article
     context_object_name = 'article_list'
-    template_name = 'articles/article_list.html'
+    template_name = 'portfolionews/article_list.html'
 
 
 class ArticleDetailView(DetailView):
     model = Article
     context_object_name = 'article'
-    template_name = 'articles/article_detail.html'
-'''
+    template_name = 'portfolionews/article_detail.html'

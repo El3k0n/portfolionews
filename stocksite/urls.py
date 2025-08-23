@@ -23,5 +23,5 @@ from portfolionews.feeds import RssArticlesFeeds  # new
 urlpatterns = [
     path('', include('portfolionews.urls')),
     path('admin/', admin.site.urls),
-    path('feed/rss', RssArticlesFeeds(), name="stock_feed"),  # new
+    path('rss', RssArticlesFeeds(), name="rss_feed"),  # new
 ]

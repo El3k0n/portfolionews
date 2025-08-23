@@ -116,6 +116,23 @@
             font-style: italic;
             padding: 40px;
         }
+        .nav-links {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #2980b9;
+        }
         .messages {
             margin-bottom: 20px;
         }
@@ -155,6 +172,13 @@
             {% endfor %}
         </div>
         {% endif %}
+        
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a href="{% url 'index' %}">🏠 Home</a>
+            <a href="{% url 'article_list' %}">📰 Articles</a>
+            <a href="{% url 'rss_feed' %}">📡 RSS Feed</a>
+        </div>
         
         <!-- Statistiche -->
         <div class="stats">
