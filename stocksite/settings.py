@@ -10,24 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from audioop import add
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+def getenv_bool(k, default="0"):
+    return os.getenv(k, default) in ("1", "true", "True", "YES", "yes")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fadjc#78(snzrh&zk%z7mvh!^k61)%x=83njjdya&u37f(g&=o'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*'] # ONLY FOR TESTING!!
-
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "change-me")
+DEBUG = getenv_bool("DJANGO_DEBUG", "0")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","").split(",")
 
 # Application definition
 
@@ -125,11 +124,20 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#FINVIZ_API_KEY = "" #Api key generated with the Finviz Elite plan
-#FINVIZ_PORTFOLIO_ID = "" #Finviz portfolio ID
-
 
 CRONJOBS = [
     ('*/60 * * * *', 'portfolionews.tasks.update_news'),
     # Add more cron jobs as needed
 ]
+
+
+# Static & media
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = getenv_bool("DJANGO_SECURE_SSL_REDIRECT","1")
+CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS if h]
